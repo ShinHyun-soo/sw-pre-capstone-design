@@ -37,6 +37,28 @@ def generate_prompt(question, answer):
     return prompt
 
 
+def evaluate_prompt(question, answer):
+    prompt = f"""
+    Using the characteristics of appropriate and inappropriate responses below, please evaluate the interviewee's interview demeanor and the quality of their responses as evidenced by the given question and answer information to determine the appropriateness of the answer.
+    Please circle an O for appropriate and an X for inappropriate. And also include 3-4 lines of your analysis.
+    
+    ###
+    [Characteristics of an appropriate answer]
+    
+    [Characteristics of an inappropriate answer]
+    
+    * [Expertise essential considerations]
+    ###
+    
+    ###
+    <<Interview question and answers with answer breakdown>>
+    Question: {question}
+    Answer: {answer}
+    """
+    # Answer breakdown : {answer breakdown infomation}
+    return prompt
+
+
 def clean_response_content(content):
     # Remove markdown code block markers if present
     content = content.replace('```json', '').replace('```', '').strip()
@@ -114,4 +136,6 @@ try:
 
 except Exception as e:
     print(f"Error in main execution: {str(e)}")
+
+
 

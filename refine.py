@@ -40,6 +40,64 @@ def generate_prompt(question, answer):
     """
     return prompt
 
+def generate_prompt(question, answer):
+    prompt = f"""
+    Please analyze the question and answer to identify the intent elements using the provided traits, and return the result strictly in JSON format.
+
+    ### 5 Intent Element Traits:
+    - **Personality characteristic**: Identifies personality or disposition.
+    - **Philosophy characteristic**: Reveals beliefs or ideas considered important.
+    - **Self-improvement characteristic**: Indicates efforts for personal growth.
+    - **Insight characteristic**: Reflects thoughts on situations or solutions.
+    - **Expertise characteristic**: Shows knowledge of specific concepts or occupational expertise.
+    - **Other**: Anything not included above.
+
+    ### Input:
+    Question: {question}
+    Answer: {answer}
+
+    ### Output:
+    {{
+        "question_intent": "string",
+        "answer_intents": [
+            {{"intent": "string", "justification": "string"}}
+        ]
+    }}
+    """
+    return prompt
+
+def evaluate_prompt(question, answer):
+    prompt = f"""
+    "Using the characteristics of appropriate and inappropriate responses below, please evaluate the interviewee’s interview demeanor and the quality of their responses as evidenced by the given question and answer information to determine the appropriateness of the answer. Please circle an O for appropriate and an X for inappropriate. And also include 3–4 lines of your analysis."
+
+    "###"
+    "1. Characteristics of an appropriate answer:
+        Clear and specific: The answer is direct and clear, making it easy for the interviewer to understand.
+        Relevant: The answer stays on topic and directly addresses the question, without including unnecessary information.
+        Based on real experience: The response is grounded in actual experience or concrete examples, adding credibility.
+        Confident yet humble: The answer is delivered with confidence, but not arrogance, and conveys a clear, assured tone.
+        Concise and respectful: The response is brief and to the point, avoiding overly lengthy explanations, while maintaining politeness."
+    "2. Characteristics of an inappropriate answer:
+        Unclear or vague: The answer lacks clarity or is too vague, making it difficult for the interviewer to understand.
+        Includes irrelevant information: The answer diverges from the question and introduces unrelated topics.
+        Lacks real-life examples: The answer is theoretical, hypothetical, or overly general without any actual examples or concrete experience.
+        Lack of confidence: The answer is unsure or hesitant, possibly lacking conviction or appearing unprepared.
+        Unnecessarily long-winded: The response is overly detailed or lengthy, including irrelevant information that distracts from the main points."
+    "3. Expertise essential considerations:
+        Knowledge and experience relevant to the job: The answer demonstrates a solid understanding of the skills and experiences required for the job.
+        Awareness of industry trends: The response shows an understanding of the latest trends, challenges, or developments within the industry related to the job.
+        Problem-solving ability: The ability to approach and solve job-related challenges is a key indicator of expertise.
+        Communication skills: Being able to clearly communicate complex ideas or issues in a way that’s easy for others to understand is an essential part of expertise.
+        Teamwork and collaboration: In modern roles, the ability to work effectively within a team is often just as important as individual skills, so examples of collaboration and team experience are important."
+    "###"
+    
+    "###"
+    "<<Interview question and answers with answer breakdown>>"
+    "Question: {question}"
+    "Answer: {answer}"
+    "###"
+    """
+    return prompt
 
 # Function to refine a single dataset
 def refine_dataset_with_llm(data):
